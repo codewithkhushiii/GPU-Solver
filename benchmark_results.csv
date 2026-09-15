@@ -1,0 +1,91 @@
+Filename,Status,Objective Value,Time (s)
+cycle.mps,Skipped (Large),N/A,N/A
+pilot.ja.mps,Success,-1332.5021,26.0263
+pds-06.mps,Skipped (Large),N/A,N/A
+nesm.mps,Skipped (Large),N/A,N/A
+osa-07.mps,Skipped (Large),N/A,N/A
+share1b.mps,Success,2350.8784,9.3096
+pilot4.mps,Success,-786.9935,6.3635
+forplan.mps,Success,-984.2026,5.8427
+greenbea.mps,Skipped (Large),N/A,N/A
+cre-b.mps,Skipped (Large),N/A,N/A
+pilot87.mps,Skipped (Large),N/A,N/A
+tuff.mps,Failed,N/A,N/A
+ship08s.mps,Success,1328166.7997,20.3158
+e226.mps,Failed,N/A,N/A
+share2b.mps,Success,-415.7322,0.7911
+scfxm2.mps,Success,35447.9823,8.5829
+stocfor1.mps,Success,-41131.9762,2.0526
+brandy.mps,Success,1518.5099,3.0632
+pds-20.mps,Skipped (Large),N/A,N/A
+ship04s.mps,Success,1270255.0563,8.1347
+blend.mps,Success,-30.8121,0.3180
+sc50b.mps,Success,-70.0000,1.9780
+pds-10.mps,Skipped (Large),N/A,N/A
+sctap2.mps,Success,1724.8071,7.5332
+woodw.mps,Skipped (Large),N/A,N/A
+boeing2.mps,Success,-282.1476,5.3049
+cre-a.mps,Skipped (Large),N/A,N/A
+vtp.base.mps,Success,6232.3139,6.5672
+qap8.mps,Success,203.5000,2.1889
+shell.mps,Success,0.0000,2.7270
+ken-18.mps,Skipped (Large),N/A,N/A
+bnl2.mps,Skipped (Large),N/A,N/A
+scsd6.mps,Success,50.5000,0.4412
+bandm.mps,Success,-158.6280,2.8871
+kb2.mps,Failed,N/A,N/A
+wood1p.mps,Skipped (Large),N/A,N/A
+qap15.mps,Skipped (Large),N/A,N/A
+sc105.mps,Success,-52.2021,1.6051
+finnis.mps,Success,-494109220239729344.0000,14.5414
+ship08l.mps,Skipped (Large),N/A,N/A
+adlittle.mps,Success,225494.9632,3.1575
+fit1p.mps,Success,8892.8225,10.7051
+fit2p.mps,Skipped (Large),N/A,N/A
+d6cube.mps,Skipped (Large),N/A,N/A
+grow22.mps,Failed,N/A,N/A
+greenbeb.mps,Skipped (Large),N/A,N/A
+ken-13.mps,Skipped (Large),N/A,N/A
+afiro.mps,Success,-464.7531,0.6813
+fit2d.mps,Skipped (Large),N/A,N/A
+osa-60.mps,Skipped (Large),N/A,N/A
+ken-11.mps,Skipped (Large),N/A,N/A
+grow7.mps,Failed,N/A,N/A
+grow15.mps,Failed,N/A,N/A
+truss.mps,Skipped (Large),N/A,N/A
+sc205.mps,Success,-52.2021,5.6013
+cre-d.mps,Skipped (Large),N/A,N/A
+sierra.mps,Success,14109569.9125,38.3379
+scagr7.mps,Success,-2328988.8329,5.9070
+gfrd-pnc.mps,Success,9841690.0518,11.1454
+d2q06c.mps,Skipped (Large),N/A,N/A
+scfxm3.mps,Success,51309.0472,17.9571
+80bau3b.mps,Skipped (Large),N/A,N/A
+maros-r7.mps,Skipped (Large),N/A,N/A
+sc50a.mps,Success,-64.5751,0.6032
+qap12.mps,Skipped (Large),N/A,N/A
+scfxm1.mps,Success,18510.3392,5.6193
+cre-c.mps,Skipped (Large),N/A,N/A
+degen3.mps,Skipped (Large),N/A,N/A
+stair.mps,Success,-428.5165,4.9705
+dfl001.mps,Skipped (Large),N/A,N/A
+scsd1.mps,Success,8.6667,0.1471
+modszk1.mps,Success,392493.6938,16.1552
+standgub.mps,Success,0.0000,2.6167
+pilotnov.mps,Success,-418.0884,25.4541
+degen2.mps,Success,-1497.3188,13.9946
+seba.mps,Success,17745.2331,7.9494
+stocfor2.mps,Success,-36144.2836,85.2663
+ship04l.mps,Success,1226849.7844,12.0089
+stocfor3.mps,Skipped (Large),N/A,N/A
+agg2.mps,Success,-20239252.3405,4.2538
+agg.mps,Success,-35955218.0917,8.8117
+lotfi.mps,Success,-25.2647,2.8826
+osa-30.mps,Skipped (Large),N/A,N/A
+standata.mps,Success,0.0000,2.2982
+25fv47.mps,Success,5740.2967,31.1039
+capri.mps,Success,508.5505,14.1015
+agg3.mps,Success,10312115.9349,13.4343
+maros.mps,Success,78328499924700911561080832.0000,43.4304
+ken-07.mps,Skipped (Large),N/A,N/A
+sctap1.mps,Success,1412.2500,2.4564

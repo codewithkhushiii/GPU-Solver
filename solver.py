@@ -1,16 +1,17 @@
 import numpy as np
 import torch
 from pysmps import smps_loader
+import time
+import os
+import csv
 
-# ==========================================
-# 1. MATRIX PREPROCESSOR (Standardization)
-# ==========================================
+
 def preprocess_mps(filepath):
     print(f"Parsing MPS file: {filepath}...")
     mps_data = smps_loader.load_mps(filepath)
 
     name = mps_data[0]
-    row_types = mps_data[5]  # The 'L', 'G', 'E' indicators for each row
+    row_types = mps_data[5] 
     c_raw = mps_data[6]
     A_raw = mps_data[7]
     rhs_name = mps_data[8][0]
@@ -47,9 +48,7 @@ def preprocess_mps(filepath):
     print(f"Original A shape: {A_raw.shape} | Standardized A shape: {A_std.shape}\n")
     return c_std, A_std, b_std
 
-# ==========================================
-# 2. ROBUST GPU MATH ENGINE (IPM)
-# ==========================================
+
 def pytorch_ipm_solver(c_np, A_np, b_np, max_iter=100, tol=1e-8, sigma=0.1):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"--- Running Engine on: {device} ---")
@@ -81,7 +80,6 @@ def pytorch_ipm_solver(c_np, A_np, b_np, max_iter=100, tol=1e-8, sigma=0.1):
             print(f"Iter {iteration:<3} | Objective = {current_obj:<14.6f} | "
                   f"Gap = {mu:.3e} | |r_b| = {r_b_rel:.3e} | |r_c| = {r_c_rel:.3e}")
 
-        # Converged only if duality gap AND both feasibility residuals are small
         if mu < tol and r_b_rel < tol and r_c_rel < tol:
             print(f"Converged successfully at iteration {iteration}!")
             break
@@ -92,9 +90,6 @@ def pytorch_ipm_solver(c_np, A_np, b_np, max_iter=100, tol=1e-8, sigma=0.1):
         reg_matrix = reg_val * torch.eye(m, dtype=torch.float64, device=device)
         M = A @ torch.diag(S_inv_X.view(-1)) @ A.T + reg_matrix
 
-        # --- FIX: correction terms were sign-flipped, causing the direction
-        # to make the KKT residuals worse every step instead of better.
-        # rhs = -r_b - A(D r_c) + A(x - sigma*mu/s)
         rhs = -r_b - A @ (S_inv_X * r_c) + A @ (x - (sigma * mu) / s)
 
         try:
@@ -106,7 +101,7 @@ def pytorch_ipm_solver(c_np, A_np, b_np, max_iter=100, tol=1e-8, sigma=0.1):
         delta_s = -r_c - A.T @ delta_y
         delta_x = -x + (sigma * mu) / s - (x / s) * delta_s
 
-        # Backtracking line search to ensure strict positivity (x > 0, s > 0)
+
         alpha_primal = 1.0
         alpha_dual = 1.0
         while torch.any((x + alpha_primal * delta_x) <= 0) and alpha_primal > 1e-12:
@@ -121,15 +116,47 @@ def pytorch_ipm_solver(c_np, A_np, b_np, max_iter=100, tol=1e-8, sigma=0.1):
     final_obj = (c.T @ x).item()
     return final_obj
 
-# ==========================================
-# 3. EXECUTION
-# ==========================================
 if __name__ == "__main__":
-    filepath = "feasible/afiro.mps"
+    folder_path = "feasible"
+    output_file = "benchmark_results.csv"
+    
+    mps_files = [f for f in os.listdir(folder_path) if f.endswith('.mps')]
+    
 
-    c_std, A_std, b_std = preprocess_mps(filepath)
-    final_value = pytorch_ipm_solver(c_std, A_std, b_std)
+    with open(output_file, mode='w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+        
+  
+        csv_writer.writerow(["Filename", "Status", "Objective Value", "Time (s)"])
+        
+        print(f"{'Filename':<15} | {'Status':<15} | {'Objective Value':<15} | {'Time (s)'}")
+        print("-" * 65)
+        
+        for filename in mps_files:
+            filepath = os.path.join(folder_path, filename)
+            
+       
+            file_size_kb = os.path.getsize(filepath) / 1024
+            if file_size_kb > 500:  
+                print(f"{filename:<15} | {'Skipped (Large)':<15} | {'N/A':<15} | N/A")
+                csv_writer.writerow([filename, "Skipped (Large)", "N/A", "N/A"])
+                continue
+                
+            try:
+                c_std, A_std, b_std = preprocess_mps(filepath)
 
-    print("-" * 50)
-    print(f"Final Optimized Objective Value: {final_value:.4f}")
-    print("-" * 50)
+                start_time = time.perf_counter()
+                
+                final_value = pytorch_ipm_solver(c_std, A_std, b_std)
+                
+                end_time = time.perf_counter()
+                compute_time = end_time - start_time
+                
+                print(f"{filename:<15} | {'Success':<15} | {final_value:<15.4f} | {compute_time:.4f}")
+                csv_writer.writerow([filename, "Success", f"{final_value:.4f}", f"{compute_time:.4f}"])
+                
+            except Exception as e:
+                print(f"{filename:<15} | {'Failed':<15} | {'N/A':<15} | N/A")
+                csv_writer.writerow([filename, "Failed", "N/A", "N/A"])
+                
+    print(f"\n Benchmarking complete! Results successfully saved to '{output_file}'.")
